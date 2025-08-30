@@ -1,5 +1,4 @@
-﻿using cli.src.entities;
-
+﻿
 if (args.Length == 0)
 {
   Console.WriteLine("Please insert some valid command (add, update, delete, mark-in-progress, mark-done, list)");
@@ -21,10 +20,6 @@ switch (command)
         Console.WriteLine("Description is required to add a new task.");
         return;
       }
-
-      var workItem = WorkItem.Create(new() { Description = description });
-
-      Console.WriteLine($"Task added = {workItem.Id} - {workItem.Description} [{workItem.Status}]");
 
       break;
     }

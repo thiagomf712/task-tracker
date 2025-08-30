@@ -1,29 +1,10 @@
-namespace cli.src.entities;
+using Domain.Entities.WorkItem.Dtos;
 
-public enum WorkItemStatus
-{
-  Todo,
-  InProgress,
-  Done
-}
-
-public record WorkItemsProps
-{
-  public required int Id { get; init; }
-  public required string Description { get; init; }
-  public required WorkItemStatus Status { get; init; }
-  public required DateTime CreatedAt { get; init; }
-  public required DateTime UpdatedAt { get; init; }
-}
-
-public record CreateWorkItemProps
-{
-  public required string Description { get; init; }
-}
+namespace Domain.Entities.WorkItem;
 
 public class WorkItem
 {
-  public int Id { get; internal set; }
+  public int Id { get; }
   public string Description { get; private set; }
   public WorkItemStatus Status { get; private set; }
   public DateTime CreatedAt { get; }
@@ -34,9 +15,7 @@ public class WorkItem
   public void UpdateDescription(string newDescription)
   {
     if (string.IsNullOrWhiteSpace(newDescription))
-    {
       throw new ArgumentException("Description should not be empty", nameof(newDescription));
-    }
 
     Description = newDescription.Trim();
 
@@ -46,9 +25,7 @@ public class WorkItem
   public void MarkAsInProgress()
   {
     if (Status == WorkItemStatus.Done)
-    {
       throw new InvalidOperationException("Cannot mark a done task as in progress");
-    }
 
     Status = WorkItemStatus.InProgress;
 
@@ -58,7 +35,6 @@ public class WorkItem
   public void MarkAsDone()
   {
     Status = WorkItemStatus.Done;
-
     MarkAsUpdated();
   }
 
@@ -98,6 +74,21 @@ public class WorkItem
   public static WorkItem Load(WorkItemsProps props)
   {
     return new WorkItem(props);
+  }
+
+  public WorkItem WithIdentity(int newId)
+  {
+    if (!IsNew)
+      throw new InvalidOperationException("Cannot change the ID of an existing work item");
+
+    return Load(new()
+    {
+      Id = newId,
+      Description = Description,
+      Status = Status,
+      CreatedAt = CreatedAt,
+      UpdatedAt = UpdatedAt
+    });
   }
 }
 
