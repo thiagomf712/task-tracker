@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Domain.Entities.WorkItem.Dtos;
 
 namespace Domain.Entities.WorkItem;
@@ -10,6 +11,7 @@ public class WorkItem
   public DateTime CreatedAt { get; }
   public DateTime UpdatedAt { get; private set; }
 
+  [JsonIgnore]
   public bool IsNew => Id == default;
 
   public void UpdateDescription(string newDescription)
@@ -52,19 +54,17 @@ public class WorkItem
     UpdatedAt = props.UpdatedAt;
   }
 
-  public static WorkItem Create(CreateWorkItemProps props)
+  public static WorkItem Create(string description)
   {
-    if (string.IsNullOrWhiteSpace(props.Description))
-    {
-      throw new ArgumentException("Description should not be empty", nameof(props));
-    }
+    if (string.IsNullOrWhiteSpace(description))
+      throw new ArgumentException("Description should not be empty", nameof(description));
 
     var createdAt = DateTime.UtcNow;
 
     return new WorkItem(new()
     {
       Id = default,
-      Description = props.Description.Trim(),
+      Description = description.Trim(),
       Status = WorkItemStatus.Todo,
       CreatedAt = createdAt,
       UpdatedAt = createdAt

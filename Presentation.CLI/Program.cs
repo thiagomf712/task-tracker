@@ -1,4 +1,7 @@
-﻿
+﻿using Application.UseCases.WorkItems;
+using Infra.Persistence.Json;
+using Presentation.CLI.Controllers.WorkItems;
+
 if (args.Length == 0)
 {
   Console.WriteLine("Please insert some valid command (add, update, delete, mark-in-progress, mark-done, list)");
@@ -7,19 +10,21 @@ if (args.Length == 0)
 }
 
 var command = args[0].ToLower();
+var remainingArgs = args.Skip(1).ToArray();
+
+string currentDirectory = Environment.CurrentDirectory;
+string fileName = "tasks.json";
+string filePath = Path.Combine(currentDirectory, fileName);
+
+var workItemRepository = new JsonWorkItemRepository(filePath);
 
 switch (command)
 {
   case "add":
     {
-      // Add task logic
-      var description = args.Length > 1 ? args[1] : string.Empty;
+      var addWorkItemController = new AddWorkItemController(new AddWorkItemUseCase(workItemRepository));
 
-      if (string.IsNullOrWhiteSpace(description))
-      {
-        Console.WriteLine("Description is required to add a new task.");
-        return;
-      }
+      await addWorkItemController.HandleAsync(remainingArgs);
 
       break;
     }
@@ -39,6 +44,8 @@ switch (command)
     // List tasks logic
     break;
   default:
-    Console.WriteLine("Unknown command");
+    Console.WriteLine("Please insert some valid command (add, update, delete, mark-in-progress, mark-done, list)");
     break;
 }
+
+await workItemRepository.SaveWorkItemsToJsonAsync();
