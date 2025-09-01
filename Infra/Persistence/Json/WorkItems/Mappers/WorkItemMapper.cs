@@ -1,7 +1,7 @@
-using Domain.Entities.WorkItem;
-using Infra.Persistence.Json.DataModels;
+using Domain.WorkItems.Entities;
+using Infra.Persistence.Json.WorkItems.DataModels;
 
-namespace Infra.Persistence.Json.Mappers;
+namespace Infra.Persistence.Json.WorkItems.Mappers;
 
 public static class WorkItemMapper
 {

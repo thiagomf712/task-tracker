@@ -1,10 +1,10 @@
 using System.Text.Json;
-using Domain.Entities.WorkItem;
-using Domain.Repositories;
-using Infra.Persistence.Json.DataModels;
-using Infra.Persistence.Json.Mappers;
+using Domain.WorkItems.Entities;
+using Domain.WorkItems.Repositories;
+using Infra.Persistence.Json.WorkItems.DataModels;
+using Infra.Persistence.Json.WorkItems.Mappers;
 
-namespace Infra.Persistence.Json;
+namespace Infra.Persistence.Json.WorkItems;
 
 public class JsonWorkItemRepository : IWorkItemRepository
 {
@@ -56,5 +56,24 @@ public class JsonWorkItemRepository : IWorkItemRepository
     _workItems.Add(persistentWorkItem);
 
     return Task.FromResult(persistentWorkItem);
+  }
+
+  public Task<WorkItem?> GetByIdAsync(int id)
+  {
+    var workItem = _workItems.FirstOrDefault(wi => wi.Id == id);
+
+    return Task.FromResult(workItem);
+  }
+
+  public Task UpdateAsync(WorkItem workItem)
+  {
+    var index = _workItems.FindIndex(wi => wi.Id == workItem.Id);
+
+    if (index != -1)
+    {
+      _workItems[index] = workItem;
+    }
+
+    return Task.CompletedTask;
   }
 }

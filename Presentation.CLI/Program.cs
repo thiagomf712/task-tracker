@@ -1,6 +1,6 @@
-﻿using Application.UseCases.WorkItems;
-using Infra.Persistence.Json;
-using Presentation.CLI.Controllers.WorkItems;
+﻿using Application.WorkItems.UseCases;
+using Infra.Persistence.Json.WorkItems;
+using Presentation.CLI.WorkItems.Controllers;
 
 if (args.Length == 0)
 {
@@ -29,8 +29,13 @@ switch (command)
       break;
     }
   case "update":
-    // Update task logic
-    break;
+    {
+      var updateWorkItemController = new UpdateWorkItemController(new UpdateWorkItemUseCase(workItemRepository));
+
+      await updateWorkItemController.HandleAsync(remainingArgs);
+
+      break;
+    }
   case "delete":
     // Delete task logic
     break;

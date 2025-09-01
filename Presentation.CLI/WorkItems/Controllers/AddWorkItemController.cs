@@ -1,6 +1,6 @@
-using Application.UseCases.WorkItems;
+using Application.WorkItems.UseCases;
 
-namespace Presentation.CLI.Controllers.WorkItems;
+namespace Presentation.CLI.WorkItems.Controllers;
 
 public class AddWorkItemController(AddWorkItemUseCase addWorkItemUseCase)
 {

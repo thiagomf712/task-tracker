@@ -1,7 +1,7 @@
-using Domain.Entities.WorkItem;
-using Domain.Repositories;
+using Domain.WorkItems.Entities;
+using Domain.WorkItems.Repositories;
 
-namespace Application.UseCases.WorkItems;
+namespace Application.WorkItems.UseCases;
 
 public class AddWorkItemUseCase(IWorkItemRepository workItemRepository)
 {

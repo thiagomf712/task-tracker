@@ -1,4 +1,4 @@
-namespace Domain.Entities.WorkItem;
+namespace Domain.WorkItems.Entities;
 
 public enum WorkItemStatus
 {

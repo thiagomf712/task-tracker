@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using Domain.Entities.WorkItem.Dtos;
+using Domain.WorkItems.Entities.Dtos;
 
-namespace Domain.Entities.WorkItem;
+namespace Domain.WorkItems.Entities;
 
 public class WorkItem
 {

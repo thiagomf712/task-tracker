@@ -1,4 +1,4 @@
-namespace Domain.Entities.WorkItem.Dtos;
+namespace Domain.WorkItems.Entities.Dtos;
 
 public record CreateWorkItemProps
 {
