@@ -76,4 +76,16 @@ public class JsonWorkItemRepository : IWorkItemRepository
 
     return Task.CompletedTask;
   }
+
+  public Task DeleteAsync(WorkItem workItem)
+  {
+    var index = _workItems.FindIndex(wi => wi.Id == workItem.Id);
+
+    if (index != -1)
+    {
+      _workItems.RemoveAt(index);
+    }
+
+    return Task.CompletedTask;
+  }
 }

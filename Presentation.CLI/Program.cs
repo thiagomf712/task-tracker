@@ -40,8 +40,13 @@ try
         break;
       }
     case "delete":
-      // Delete task logic
-      break;
+      {
+        var deleteWorkItemController = new DeleteWorkItemController(new DeleteWorkItemUseCase(workItemRepository));
+
+        await deleteWorkItemController.HandleAsync(remainingArgs);
+
+        break;
+      }
     case "mark-in-progress":
       // Mark task as in progress logic
       break;

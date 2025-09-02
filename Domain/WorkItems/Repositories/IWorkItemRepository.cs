@@ -8,4 +8,5 @@ public interface IWorkItemRepository
   Task<WorkItem> CreateAsync(WorkItem workItem);
   Task<WorkItem?> GetByIdAsync(int id);
   Task UpdateAsync(WorkItem workItem);
+  Task DeleteAsync(WorkItem workItem);
 }
