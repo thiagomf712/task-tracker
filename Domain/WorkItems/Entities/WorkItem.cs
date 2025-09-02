@@ -1,4 +1,6 @@
 using System.Text.Json.Serialization;
+using Domain.Shared.Exceptions.App;
+using Domain.Shared.Exceptions.Logic;
 using Domain.WorkItems.Entities.Dtos;
 
 namespace Domain.WorkItems.Entities;
@@ -17,7 +19,7 @@ public class WorkItem
   public void UpdateDescription(string newDescription)
   {
     if (string.IsNullOrWhiteSpace(newDescription))
-      throw new ArgumentException("Description should not be empty", nameof(newDescription));
+      throw new InvalidInputException("Description should not be empty");
 
     Description = newDescription.Trim();
 
@@ -27,7 +29,7 @@ public class WorkItem
   public void MarkAsInProgress()
   {
     if (Status == WorkItemStatus.Done)
-      throw new InvalidOperationException("Cannot mark a done task as in progress");
+      throw new InvalidStatusTransitionException("Cannot mark a done task as in progress");
 
     Status = WorkItemStatus.InProgress;
 
@@ -57,7 +59,7 @@ public class WorkItem
   public static WorkItem Create(string description)
   {
     if (string.IsNullOrWhiteSpace(description))
-      throw new ArgumentException("Description should not be empty", nameof(description));
+      throw new InvalidInputException("Description should not be empty");
 
     var createdAt = DateTime.UtcNow;
 
@@ -79,7 +81,7 @@ public class WorkItem
   public WorkItem WithIdentity(int newId)
   {
     if (!IsNew)
-      throw new InvalidOperationException("Cannot change the ID of an existing work item");
+      throw new InvalidEntityStateException("Cannot change the ID of an existing work item");
 
     return Load(new()
     {

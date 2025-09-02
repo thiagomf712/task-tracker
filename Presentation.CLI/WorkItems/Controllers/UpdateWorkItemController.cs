@@ -15,15 +15,8 @@ public class UpdateWorkItemController(UpdateWorkItemUseCase updateWorkItemUseCas
 
     var description = args[1];
 
-    try
-    {
-      await updateWorkItemUseCase.ExecuteAsync(id, description);
+    await updateWorkItemUseCase.ExecuteAsync(id, description);
 
-      Console.WriteLine($"Work item with ID: {id} updated successfully.");
-    }
-    catch (KeyNotFoundException ex)
-    {
-      Console.WriteLine(ex.Message);
-    }
+    Console.WriteLine($"Work item with ID: {id} updated successfully.");
   }
 }
