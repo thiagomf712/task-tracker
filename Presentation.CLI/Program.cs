@@ -64,8 +64,13 @@ try
         break;
       }
     case "list":
-      // List tasks logic
-      break;
+      {
+        var listWorkItemsController = new ListWorkItemsController(new ListWorkItemsUseCase(workItemRepository));
+
+        await listWorkItemsController.HandleAsync(remainingArgs);
+
+        break;
+      }
     default:
       Console.WriteLine("Please insert some valid command (add, update, delete, mark-in-progress, mark-done, list)");
       break;

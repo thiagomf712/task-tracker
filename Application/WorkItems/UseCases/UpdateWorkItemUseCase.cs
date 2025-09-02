@@ -7,7 +7,7 @@ public class UpdateWorkItemUseCase(IWorkItemRepository workItemRepository)
 {
   public async Task ExecuteAsync(int id, string description)
   {
-    var workItem = await workItemRepository.GetByIdAsync(id)
+    var workItem = await workItemRepository.FindByIdAsync(id)
       ?? throw new WorkItemNotFoundException($"Work item with ID {id} not found.");
 
     workItem.UpdateDescription(description);

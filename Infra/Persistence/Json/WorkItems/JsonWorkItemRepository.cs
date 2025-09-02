@@ -47,6 +47,25 @@ public class JsonWorkItemRepository : IWorkItemRepository
     await File.WriteAllTextAsync(_filePath, json);
   }
 
+  public async Task<IEnumerable<WorkItem>> FindAllAsync()
+  {
+    return await Task.FromResult(_workItems);
+  }
+
+  public async Task<IEnumerable<WorkItem>> FindByStatusAsync(WorkItemStatus status)
+  {
+    var filteredItems = _workItems.Where(wi => wi.Status == status);
+
+    return await Task.FromResult(filteredItems);
+  }
+
+  public Task<WorkItem?> FindByIdAsync(int id)
+  {
+    var workItem = _workItems.FirstOrDefault(wi => wi.Id == id);
+
+    return Task.FromResult(workItem);
+  }
+
   public Task<WorkItem> CreateAsync(WorkItem workItem)
   {
     var newId = GetNextId();
@@ -56,13 +75,6 @@ public class JsonWorkItemRepository : IWorkItemRepository
     _workItems.Add(persistentWorkItem);
 
     return Task.FromResult(persistentWorkItem);
-  }
-
-  public Task<WorkItem?> GetByIdAsync(int id)
-  {
-    var workItem = _workItems.FirstOrDefault(wi => wi.Id == id);
-
-    return Task.FromResult(workItem);
   }
 
   public Task UpdateAsync(WorkItem workItem)

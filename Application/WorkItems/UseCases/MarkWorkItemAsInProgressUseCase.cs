@@ -8,7 +8,7 @@ public class MarkWorkItemAsInProgressUseCase(IWorkItemRepository workItemReposit
 {
   public async Task<WorkItem> ExecuteAsync(int id)
   {
-    var workItem = await workItemRepository.GetByIdAsync(id)
+    var workItem = await workItemRepository.FindByIdAsync(id)
       ?? throw new WorkItemNotFoundException($"Work item with ID {id} not found.");
 
     if (workItem.Status == WorkItemStatus.InProgress)
