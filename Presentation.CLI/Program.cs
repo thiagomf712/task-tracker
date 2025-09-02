@@ -48,11 +48,21 @@ try
         break;
       }
     case "mark-in-progress":
-      // Mark task as in progress logic
-      break;
+      {
+        var markWorkItemAsInProgressController = new MarkWorkItemAsInProgressController(new MarkWorkItemAsInProgressUseCase(workItemRepository));
+
+        await markWorkItemAsInProgressController.HandleAsync(remainingArgs);
+
+        break;
+      }
     case "mark-done":
-      // Mark task as done logic
-      break;
+      {
+        var markWorkItemAsDoneController = new MarkWorkItemAsDoneController(new MarkWorkItemAsDoneUseCase(workItemRepository));
+
+        await markWorkItemAsDoneController.HandleAsync(remainingArgs);
+
+        break;
+      }
     case "list":
       // List tasks logic
       break;
