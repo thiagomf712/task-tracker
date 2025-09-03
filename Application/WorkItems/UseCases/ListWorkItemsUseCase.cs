@@ -1,8 +1,8 @@
+namespace Application.WorkItems.UseCases;
+
 using Application.WorkItems.UseCases.Dtos;
 using Domain.WorkItems.Entities;
 using Domain.WorkItems.Repositories;
-
-namespace Application.WorkItems.UseCases;
 
 public class ListWorkItemsUseCase(IWorkItemRepository workItemRepository)
 {

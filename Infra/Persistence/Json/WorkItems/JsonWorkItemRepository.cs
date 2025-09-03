@@ -1,67 +1,50 @@
+namespace Infra.Persistence.Json.WorkItems;
+
 using System.Text.Json;
 using Domain.WorkItems.Entities;
 using Domain.WorkItems.Repositories;
 using Infra.Persistence.Json.WorkItems.DataModels;
 using Infra.Persistence.Json.WorkItems.Mappers;
 
-namespace Infra.Persistence.Json.WorkItems;
-
 public class JsonWorkItemRepository : IWorkItemRepository
 {
-  private readonly JsonSerializerOptions _jsonOptions = new()
+  private readonly JsonSerializerOptions jsonOptions = new()
   {
     PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-    WriteIndented = true
+    WriteIndented = true,
   };
 
-  private readonly List<WorkItem> _workItems;
-  private readonly string _filePath;
+  private readonly List<WorkItem> workItems;
+  private readonly string filePath;
 
   public JsonWorkItemRepository(string filePath)
   {
-    _filePath = filePath;
-    _workItems = LoadWorkItemsFromJson();
-  }
-
-  private List<WorkItem> LoadWorkItemsFromJson()
-  {
-    if (!File.Exists(_filePath))
-      return [];
-
-    var json = File.ReadAllText(_filePath);
-
-    var itemsAsData = JsonSerializer.Deserialize<List<WorkItemData>>(json, _jsonOptions);
-
-    return WorkItemMapper.ToDomain(itemsAsData ?? []);
-  }
-
-  private int GetNextId()
-  {
-    return _workItems.Count != 0 ? _workItems.Max(wi => wi.Id) + 1 : 1;
+    this.filePath = filePath;
+    workItems = LoadWorkItemsFromJson();
   }
 
   public async Task SaveWorkItemsToJsonAsync()
   {
-    var json = JsonSerializer.Serialize(_workItems, _jsonOptions);
+    var json = JsonSerializer.Serialize(workItems, jsonOptions);
 
-    await File.WriteAllTextAsync(_filePath, json);
+    await File.WriteAllTextAsync(filePath, json);
   }
 
   public async Task<IEnumerable<WorkItem>> FindAllAsync()
   {
-    return await Task.FromResult(_workItems);
+    return await Task.FromResult(workItems);
   }
 
   public async Task<IEnumerable<WorkItem>> FindByStatusAsync(WorkItemStatus status)
   {
-    var filteredItems = _workItems.Where(wi => wi.Status == status);
+    var filteredItems = workItems.Where(wi => wi.Status == status);
 
     return await Task.FromResult(filteredItems);
   }
 
   public Task<WorkItem?> FindByIdAsync(int id)
   {
-    var workItem = _workItems.FirstOrDefault(wi => wi.Id == id);
+    var workItem = workItems.FirstOrDefault(wi => wi.Id == id);
 
     return Task.FromResult(workItem);
   }
@@ -72,18 +55,18 @@ public class JsonWorkItemRepository : IWorkItemRepository
 
     WorkItem persistentWorkItem = workItem.WithIdentity(newId);
 
-    _workItems.Add(persistentWorkItem);
+    workItems.Add(persistentWorkItem);
 
     return Task.FromResult(persistentWorkItem);
   }
 
   public Task UpdateAsync(WorkItem workItem)
   {
-    var index = _workItems.FindIndex(wi => wi.Id == workItem.Id);
+    var index = workItems.FindIndex(wi => wi.Id == workItem.Id);
 
     if (index != -1)
     {
-      _workItems[index] = workItem;
+      workItems[index] = workItem;
     }
 
     return Task.CompletedTask;
@@ -91,13 +74,32 @@ public class JsonWorkItemRepository : IWorkItemRepository
 
   public Task DeleteAsync(WorkItem workItem)
   {
-    var index = _workItems.FindIndex(wi => wi.Id == workItem.Id);
+    var index = workItems.FindIndex(wi => wi.Id == workItem.Id);
 
     if (index != -1)
     {
-      _workItems.RemoveAt(index);
+      workItems.RemoveAt(index);
     }
 
     return Task.CompletedTask;
+  }
+
+  private List<WorkItem> LoadWorkItemsFromJson()
+  {
+    if (!File.Exists(filePath))
+    {
+      return [];
+    }
+
+    var json = File.ReadAllText(filePath);
+
+    var itemsAsData = JsonSerializer.Deserialize<List<WorkItemData>>(json, jsonOptions);
+
+    return WorkItemMapper.ToDomain(itemsAsData ?? []);
+  }
+
+  private int GetNextId()
+  {
+    return workItems.Count != 0 ? workItems.Max(wi => wi.Id) + 1 : 1;
   }
 }

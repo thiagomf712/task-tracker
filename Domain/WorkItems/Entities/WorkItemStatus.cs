@@ -4,5 +4,5 @@ public enum WorkItemStatus
 {
   Todo,
   InProgress,
-  Done
+  Done,
 }

@@ -1,8 +1,8 @@
+namespace Presentation.CLI.WorkItems.Controllers;
+
 using Application.WorkItems.UseCases;
 using Domain.WorkItems.Entities;
 using Presentation.CLI.WorkItems.Presenters;
-
-namespace Presentation.CLI.WorkItems.Controllers;
 
 public class ListWorkItemsController(ListWorkItemsUseCase listWorkItemsUseCase)
 {
@@ -23,7 +23,7 @@ public class ListWorkItemsController(ListWorkItemsUseCase listWorkItemsUseCase)
           "done" => WorkItemStatus.Done,
           "todo" => WorkItemStatus.Todo,
           "in-progress" => WorkItemStatus.InProgress,
-          _ => null
+          _ => null,
         };
       }
       else

@@ -1,7 +1,7 @@
+namespace Application.WorkItems.UseCases;
+
 using Application.WorkItems.Exceptions;
 using Domain.WorkItems.Repositories;
-
-namespace Application.WorkItems.UseCases;
 
 public class DeleteWorkItemUseCase(IWorkItemRepository workItemRepository)
 {

@@ -8,4 +8,3 @@ public record WorkItemsProps
   public required DateTime CreatedAt { get; init; }
   public required DateTime UpdatedAt { get; init; }
 }
-

@@ -1,6 +1,6 @@
-using Domain.WorkItems.Entities;
-
 namespace Presentation.CLI.WorkItems.Presenters;
+
+using Domain.WorkItems.Entities;
 
 public static class WorkItemPresenter
 {

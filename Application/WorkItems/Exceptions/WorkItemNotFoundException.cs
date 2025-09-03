@@ -1,6 +1,6 @@
-using Application.Shared.Exceptions;
-
 namespace Application.WorkItems.Exceptions;
+
+using Application.Shared.Exceptions;
 
 public class WorkItemNotFoundException : NotFoundException
 {

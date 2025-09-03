@@ -1,7 +1,7 @@
+namespace Infra.Persistence.Json.WorkItems.Mappers;
+
 using Domain.WorkItems.Entities;
 using Infra.Persistence.Json.WorkItems.DataModels;
-
-namespace Infra.Persistence.Json.WorkItems.Mappers;
 
 public static class WorkItemMapper
 {
@@ -13,7 +13,7 @@ public static class WorkItemMapper
       Description = data.Description,
       Status = data.Status,
       CreatedAt = data.CreatedAt,
-      UpdatedAt = data.UpdatedAt
+      UpdatedAt = data.UpdatedAt,
     });
   }
 

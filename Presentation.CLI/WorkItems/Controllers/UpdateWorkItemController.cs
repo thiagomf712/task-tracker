@@ -1,6 +1,6 @@
-using Application.WorkItems.UseCases;
-
 namespace Presentation.CLI.WorkItems.Controllers;
+
+using Application.WorkItems.UseCases;
 
 public class UpdateWorkItemController(UpdateWorkItemUseCase updateWorkItemUseCase)
 {

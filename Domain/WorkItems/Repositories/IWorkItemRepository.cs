@@ -1,7 +1,6 @@
+namespace Domain.WorkItems.Repositories;
 
 using Domain.WorkItems.Entities;
-
-namespace Domain.WorkItems.Repositories;
 
 public interface IWorkItemRepository
 {
