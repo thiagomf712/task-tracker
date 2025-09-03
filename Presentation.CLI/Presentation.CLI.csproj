@@ -1,7 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-
-
   <PropertyGroup>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>task-cli</ToolCommandName>
